@@ -1,0 +1,109 @@
+/* shared.css — クレープの森 共通ベース */
+@import url('https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Zen+Old+Mincho:wght@400;700;900&family=Caveat:wght@400;600;700&family=Shippori+Mincho:wght@400;700&display=swap');
+
+@property --p { syntax: '<number>'; initial-value: 0; inherits: true; }
+
+:root{
+  --bg: #FAF7F2;
+  --paper: #F1ECE3;
+  --paper-2: #E7E0D2;
+  --line: #C8BFAE;
+  --mid: #8E8678;
+  --ink: #2B2622;
+  --ink-soft: #4B4339;
+  --warm: #6A5C46;
+  --sepia: #A89373;
+  --shadow: 0 18px 40px -22px rgba(43,38,34,.32), 0 2px 6px -2px rgba(43,38,34,.12);
+}
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; background:var(--bg); color:var(--ink);
+  font-family: "Zen Kaku Gothic New", "Hiragino Sans", system-ui, sans-serif;
+  -webkit-font-smoothing:antialiased; text-rendering: optimizeLegibility;
+  font-feature-settings: "palt";
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+
+.serif{ font-family:"Shippori Mincho","Zen Old Mincho", serif; font-weight:700; letter-spacing:.02em;}
+.maru{ font-family:"Klee One","Zen Kaku Gothic New", sans-serif; }
+.script{ font-family:"Caveat", cursive; font-weight:600;}
+.mono{ font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.tate{ writing-mode: vertical-rl; }
+
+/* placeholder image utility */
+.ph{
+  position:relative; overflow:hidden;
+  background: repeating-linear-gradient( 135deg,
+    var(--paper) 0 8px, var(--paper-2) 8px 16px);
+  color: var(--warm);
+  display:flex; align-items:center; justify-content:center;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px; letter-spacing:.08em; text-transform:uppercase;
+}
+.ph::after{ content:""; position:absolute; inset:8px; border:1px dashed var(--line); border-radius:inherit; pointer-events:none;}
+.ph > span{ position:relative; z-index:1; background:rgba(250,247,242,.7); padding:4px 8px; border-radius:99px;}
+
+/* Decorative tiny shapes */
+.dot{ width:6px;height:6px;border-radius:50%;background:var(--ink);display:inline-block;}
+.diamond{ width:10px;height:10px;background:var(--ink);transform:rotate(45deg);display:inline-block;}
+
+/* Reveal animation utility */
+.reveal{ opacity:0; transform: translateY(14px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1);}
+.reveal.in{ opacity:1; transform:none; }
+
+/* Hand-drawn frame (uses border-image SVG with squiggly stroke) */
+.handframe{
+  --c: var(--ink);
+  border: 1.5px solid var(--c);
+  border-radius: 18px 22px 18px 22px / 22px 18px 22px 18px;
+}
+
+/* Underline scribble for headings */
+.scribble{ position:relative; display:inline-block;}
+.scribble::after{
+  content:""; position:absolute; left:-4%; right:-4%; bottom:-8px;
+  height:10px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'><path d='M2 6 Q 25 1, 50 6 T 100 6 T 150 6 T 198 6' stroke='%232B2622' stroke-width='1.8' fill='none' stroke-linecap='round'/></svg>") center/100% 100% no-repeat;
+  opacity:.85;
+}
+
+/* Floating leaf animation primitives */
+@keyframes drift {
+  0%{ transform: translate3d(0,-20vh,0) rotate(0deg); opacity:0;}
+  10%{ opacity:.7;}
+  100%{ transform: translate3d(var(--dx,30px), 120vh, 0) rotate(var(--rot,540deg)); opacity:0;}
+}
+@keyframes sway { 0%,100%{ transform: rotate(-4deg);} 50%{ transform: rotate(4deg);} }
+@keyframes pop { 0%{ transform: scale(.9);} 50%{ transform: scale(1.06);} 100%{ transform: scale(1);} }
+@keyframes spin { to { transform: rotate(360deg);} }
+@keyframes blink { 0%,90%,100%{ opacity:1;} 95%{ opacity:.2;} }
+@keyframes marquee { from{ transform: translateX(0);} to{ transform: translateX(-50%);} }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-6px);} }
+
+/* Common section padding */
+section { padding: 96px 6vw; position:relative; }
+@media (max-width: 720px){ section{ padding: 64px 5vw; } }
+h1,h2,h3,h4{ margin:0; }
+
+/* tag pill */
+.pill{ display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border:1px solid var(--line); border-radius:99px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; background: rgba(255,255,255,.5); }
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding: 14px 22px; background: var(--ink); color:var(--bg);
+  border-radius: 99px; border:none; cursor:pointer;
+  font-family:inherit; font-weight:500; font-size:14px;
+  transition: transform .25s ease, box-shadow .25s ease, background .25s;
+  letter-spacing:.06em;
+}
+.btn:hover{ transform: translateY(-2px) rotate(-1deg); box-shadow: var(--shadow);}
+.btn.ghost{ background:transparent; color:var(--ink); border:1.5px solid var(--ink);}
+.btn .arrow{ transition: transform .3s;}
+.btn:hover .arrow{ transform: translateX(4px);}
+
+/* skip link */
+.skip{ position:absolute; left:-9999px; }
+.skip:focus{ left:8px; top:8px; background:var(--ink); color:var(--bg); padding:8px 12px; border-radius:8px; z-index:9999;}
