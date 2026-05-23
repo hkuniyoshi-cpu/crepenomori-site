@@ -2060,8 +2060,10 @@ function applyBlog(items) {
     const rawTitle  = b.title || b.body || '';
     const shortTitle = rawTitle.length > 44 ? rawTitle.slice(0, 44) + '…' : rawTitle;
     const imgUrl = b.image;
-    // 日付があれば個別ページへリンク、なければモーダル表示
-    const blogHref = b.date ? `/blog/${b.date}/` : null;
+    // Sheetsに保存されたブログURLがあればそれを使用、なければ日付ベースURL
+    const blogHref = (b.url && b.url.includes('/blog/'))
+      ? b.url
+      : (b.date ? `/blog/${b.date}/` : null);
     const tagOpen = blogHref
       ? `<a href="${blogHref}" class="e blog-card reveal">`
       : `<article class="e blog-card reveal" role="button" tabindex="0" data-idx="${i}">`;
