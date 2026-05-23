@@ -1120,10 +1120,19 @@ footer .pp-link{ font-size:11px; }
 }
 @media (max-width:480px){
   .cta{ padding:52px 5vw 56px; }
-  .cta-box{ padding:24px 16px 28px; margin:0; }
+  .cta-box{
+    padding:24px 16px 28px; margin:0;
+    overflow:hidden;           /* テープ・テキストのはみ出しを防止 */
+    transform:none;            /* 回転なし（モバイルでは不要） */
+  }
+  /* テープをカード内側に収める */
+  .cta-box::before{ top:6px; }
+  .cta-box::after { top:8px; }
   .cta .actions{ flex-direction:column; align-items:stretch; }
   .cta .actions .btn{ width:100%; justify-content:center; padding:16px 20px; }
-  .cta .cta-note{ font-size:15px; }
+  /* テキスト折り返し */
+  .cta h2{ overflow-wrap:break-word; word-break:break-all; }
+  .cta .cta-note{ font-size:13px; overflow-wrap:break-word; }
 }
 
 /* ── Footer ── */
