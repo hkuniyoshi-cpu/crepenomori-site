@@ -555,6 +555,7 @@ section{ padding: 80px 5vw; position: relative; }
 .blog .more a:hover{ text-decoration:underline; }
 .blog-card{ cursor:pointer; }
 .blog-card:hover .cap{ text-decoration:underline; }
+a.blog-card{ color:inherit; text-decoration:none; display:block; }
 
 /* ── クチコミモーダル ── */
 #review-modal{
@@ -2059,7 +2060,13 @@ function applyBlog(items) {
     const rawTitle  = b.title || b.body || '';
     const shortTitle = rawTitle.length > 44 ? rawTitle.slice(0, 44) + '…' : rawTitle;
     const imgUrl = b.image;
-    return `<article class="e blog-card reveal" role="button" tabindex="0" data-idx="${i}">
+    // 日付があれば個別ページへリンク、なければモーダル表示
+    const blogHref = b.date ? `/blog/${b.date}/` : null;
+    const tagOpen = blogHref
+      ? `<a href="${blogHref}" class="e blog-card reveal">`
+      : `<article class="e blog-card reveal" role="button" tabindex="0" data-idx="${i}">`;
+    const tagClose = blogHref ? '</a>' : '</article>';
+    return `${tagOpen}
       <span class="tape"></span>
       ${imgUrl
         ? '<div class="image"><img src="' + esc(imgUrl) + '" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
@@ -2069,7 +2076,7 @@ function applyBlog(items) {
         <p class="cap">${esc(shortTitle)}</p>
         ${b.body ? '<span class="cta-lbl">続きを読む →</span>' : ''}
       </div>
-    </article>`;
+    ${tagClose}`;
   }).join('');
   observe(wall, '.e');
 }
