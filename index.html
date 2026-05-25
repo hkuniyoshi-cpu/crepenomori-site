@@ -2109,7 +2109,7 @@ function applyAccess(a) {
   if (tbl) {
     tbl.innerHTML = [
       ['火・水・木', a['営業時間（火・水・木）']],
-      ['金・土',     a['営業時間（金・土）']],
+      ['土',         a['営業時間（土）']],
       ['日',         a['営業時間（日）']],
       [a['定休日'] || '月', 'closed'],
     ].filter(([, v]) => v).map(([d, t]) => `<tr><td>${esc(d)}</td><td>${esc(String(t))}</td></tr>`).join('');
