@@ -1150,9 +1150,80 @@ footer .pp-link{ font-size:11px; }
     transition-duration: .01ms !important;
   }
 }
+
+/* ── Page Loader ─────────────────────────────────────────────── */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: #FAF7F2;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  transition: opacity .6s ease, visibility .6s ease;
+}
+#page-loader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loader-stamp {
+  width: 88px;
+  height: 88px;
+  animation: ld-stamp .7s cubic-bezier(.22,1,.36,1) both, ld-pulse 2.4s ease-in-out .7s infinite;
+}
+.loader-name {
+  font-family: 'Klee One', serif;
+  font-size: 20px;
+  letter-spacing: .18em;
+  color: #2B2622;
+  animation: ld-rise .5s ease .25s both;
+}
+.loader-dots {
+  display: flex;
+  gap: 7px;
+  animation: ld-rise .5s ease .4s both;
+}
+.loader-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8E8678;
+  animation: ld-bounce .9s ease-in-out infinite;
+}
+.loader-dots span:nth-child(2) { animation-delay: .18s; }
+.loader-dots span:nth-child(3) { animation-delay: .36s; }
+@keyframes ld-stamp {
+  from { opacity: 0; transform: rotate(-10deg) scale(.6); }
+  to   { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+@keyframes ld-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50%       { transform: scale(1.04) rotate(1.5deg); }
+}
+@keyframes ld-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ld-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: .35; }
+  40%            { transform: translateY(-9px); opacity: 1; }
+}
 </style>
 </head>
 <body>
+
+<div id="page-loader" aria-hidden="true">
+  <svg class="loader-stamp" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="44" cy="44" r="42" fill="#2B2622"/>
+    <circle cx="44" cy="44" r="34" fill="none" stroke="#FAF7F2" stroke-width="1" stroke-dasharray="2.8 2"/>
+    <text x="44" y="61" text-anchor="middle" font-family="serif" font-size="42" font-weight="700" fill="#FAF7F2">森</text>
+  </svg>
+  <p class="loader-name">クレープの森</p>
+  <div class="loader-dots" aria-label="読み込み中"><span></span><span></span><span></span></div>
+</div>
 
 <!-- ===== Nav ===== -->
 <nav class="nav">
@@ -1275,45 +1346,7 @@ footer .pp-link{ font-size:11px; }
     <span class="date">— picks of the season</span>
   </div>
 
-  <div class="row">
-    <article class="item">
-      <span class="tape"></span>
-      <span class="star">★ best<br>seller</span>
-      <div class="image ph"><span>苺ミルフィーユ</span></div>
-      <div class="head"><div class="name">苺ミルフィーユ</div><div class="price">¥780</div></div>
-      <p class="desc">パイのサクッ、カスタードのとろり、苺の甘酸っぱさ。森でいちばん華やかな一枚。</p>
-    </article>
-    <article class="item">
-      <span class="tape"></span>
-      <div class="image ph"><span>あんこ＆白玉</span></div>
-      <div class="head"><div class="name">あんこ＆白玉</div><div class="price">¥720</div></div>
-      <p class="desc">自家炊きのつぶあんと、もちもち白玉。バニラアイスと一緒に、和の余韻でしめくくる。</p>
-    </article>
-    <article class="item">
-      <span class="tape"></span>
-      <div class="image ph"><span>ハム＆チーズ</span></div>
-      <div class="head"><div class="name">ハム＆チーズ</div><div class="price">¥860</div></div>
-      <p class="desc">そば粉のガレットに、贅沢にチーズを。ランチに一枚、コーヒーと一緒にどうぞ。</p>
-    </article>
-    <article class="item">
-      <span class="tape"></span>
-      <div class="image ph"><span>バナナチョコ</span></div>
-      <div class="head"><div class="name">バナナチョコ</div><div class="price">¥640</div></div>
-      <p class="desc">王道の組み合わせ。生クリームたっぷりで、子どもも大人もにっこり。</p>
-    </article>
-    <article class="item">
-      <span class="tape"></span>
-      <div class="image ph"><span>パッションフルーツ</span></div>
-      <div class="head"><div class="name">パッション</div><div class="price">¥820</div></div>
-      <p class="desc">沖縄産パッションフルーツの自家製ソース。さっぱり夏の味。</p>
-    </article>
-    <article class="item">
-      <span class="tape"></span>
-      <div class="image ph"><span>季節ドリンク</span></div>
-      <div class="head"><div class="name">季節のドリンク</div><div class="price">¥480〜</div></div>
-      <p class="desc">月替わりのレモネード・しまみかんソーダ・自家焙煎ドリップコーヒーなど。</p>
-    </article>
-  </div>
+  <div class="row"></div>
 
   <p class="footnote">― メニューは全16種類、お店で全部見られます <span class="arr">→</span></p>
 </section>
@@ -1334,56 +1367,7 @@ footer .pp-link{ font-size:11px; }
     <span class="date">— small obsessions</span>
   </div>
 
-  <div class="list">
-    <div class="li in">
-      <span class="pn">01.</span>
-      <div class="check"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#2B2622" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 L11 22 L23 6"/></svg></div>
-      <div>
-        <h3>毎朝、生地から手作り</h3>
-        <p>市販のミックスは使いません。卵・粉・牛乳の配合を季節と気温で微調整。焼き上がりの香りで一日が始まります。</p>
-      </div>
-    </div>
-    <div class="li in">
-      <span class="pn">02.</span>
-      <div class="check"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#2B2622" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 L11 22 L23 6"/></svg></div>
-      <div>
-        <h3>沖縄の旬を、ひとさじ</h3>
-        <p>パッションフルーツ、たんかん、シークワーサー。地元の農家さんから直接届く季節のフルーツを、その時いちばんの食べ方で。</p>
-      </div>
-    </div>
-    <div class="li in">
-      <span class="pn">03.</span>
-      <div class="check"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#2B2622" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 L11 22 L23 6"/></svg></div>
-      <div>
-        <h3>あんこも、カスタードも</h3>
-        <p>あんこは小豆から、カスタードはバニラビーンズから。手間がかかる工程ほど、出来上がりに正直に出る気がしています。</p>
-      </div>
-    </div>
-    <div class="li in">
-      <span class="pn">04.</span>
-      <div class="check"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#2B2622" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 L11 22 L23 6"/></svg></div>
-      <div>
-        <h3>焼きたてを、すぐに</h3>
-        <p>ひとつひとつ焼いてからお渡しします。少しお待たせしますが、温かいまま受け取っていただくのがいちばん美味しい食べ方です。</p>
-      </div>
-    </div>
-    <div class="li in">
-      <span class="pn">05.</span>
-      <div class="check"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#2B2622" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 L11 22 L23 6"/></svg></div>
-      <div>
-        <h3>お持ち帰りも、なるべく温かく</h3>
-        <p>遮熱袋にお入れし、しっとり食感を保ったままご自宅へ。冷めても美味しいレシピを目指しています。</p>
-      </div>
-    </div>
-    <div class="li in">
-      <span class="pn">06.</span>
-      <div class="check"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#2B2622" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 L11 22 L23 6"/></svg></div>
-      <div>
-        <h3>本のある小さな空間</h3>
-        <p>店主が選んだ絵本・エッセイが少しだけ並びます。コーヒー一杯、ゆっくりしていってください。</p>
-      </div>
-    </div>
-  </div>
+  <div class="list"></div>
 
   <span class="sticker" style="--r: 10deg; top: 40px; right: 6vw;">handmade ✿ daily</span>
 </section>
@@ -1397,12 +1381,7 @@ footer .pp-link{ font-size:11px; }
     <span class="date">— for you</span>
   </div>
 
-  <div class="scenes">
-    <div class="scene"><span class="lbl">no.1</span><div class="image ph"><span>scene 01</span></div><p class="cap">散歩のとちゅう、ふらっと寄りたい人へ。</p></div>
-    <div class="scene"><span class="lbl">no.2</span><div class="image ph"><span>scene 02</span></div><p class="cap">家族でちょっと特別なおやつタイムを。</p></div>
-    <div class="scene"><span class="lbl">no.3</span><div class="image ph"><span>scene 03</span></div><p class="cap">ひとりカフェ時間、本を持って◎</p></div>
-    <div class="scene"><span class="lbl">no.4</span><div class="image ph"><span>scene 04</span></div><p class="cap">仕事のごほうび、お土産用としても。</p></div>
-  </div>
+  <div class="scenes"></div>
 </section>
 
 <div class="tear tear-c tear--paper" aria-hidden="true"></div>
@@ -1414,38 +1393,7 @@ footer .pp-link{ font-size:11px; }
     <span class="date">— Google reviews</span>
   </div>
 
-  <div class="grid">
-    <div class="bub">
-      <div class="head"><span class="who">yu**</span><span class="stars">★★★★★</span></div>
-      生地がふわっとしてて、もう一枚いける感じ。お店の雰囲気もとても落ち着いていて、また来ます！
-      <div class="meta"><span>via Google</span><span>2026.05</span></div>
-    </div>
-    <div class="bub">
-      <div class="head"><span class="who">kana</span><span class="stars">★★★★★</span></div>
-      あんこのクレープが想像以上に美味しかった。和スイーツ好きの方はぜひ。コーヒーとの相性も◎
-      <div class="meta"><span>via Google</span><span>2026.05</span></div>
-    </div>
-    <div class="bub">
-      <div class="head"><span class="who">マサキ</span><span class="stars">★★★★☆</span></div>
-      牧志駅から歩いて行けて立ち寄りやすい。ハム＆チーズのガレットがランチに最高でした。
-      <div class="meta"><span>via Google</span><span>2026.04</span></div>
-    </div>
-    <div class="bub">
-      <div class="head"><span class="who">Rika</span><span class="stars">★★★★★</span></div>
-      季節限定の苺ミルフィーユ、見た目もかわいくて気分上がりました。写真も撮りやすい盛り付け！
-      <div class="meta"><span>via Google</span><span>2026.04</span></div>
-    </div>
-    <div class="bub">
-      <div class="head"><span class="who">たけし</span><span class="stars">★★★★★</span></div>
-      子どもがチョコクレープ大好きで、毎週末通ってます。店員さんもいつも優しくて居心地が良いです。
-      <div class="meta"><span>via Google</span><span>2026.03</span></div>
-    </div>
-    <div class="bub">
-      <div class="head"><span class="who">あい</span><span class="stars">★★★★★</span></div>
-      手作り感がほっとする。安里にこんなお店があるとは…通いたいリスト入りです。
-      <div class="meta"><span>via Google</span><span>2026.03</span></div>
-    </div>
-  </div>
+  <div class="grid"></div>
 
   <div class="review-credit">
     Google レビュー <strong id="review-rating">★ 4.8</strong> ／ ありがとうございます
@@ -1466,16 +1414,7 @@ footer .pp-link{ font-size:11px; }
     <span class="date">— news</span>
   </div>
 
-  <div class="wall">
-    <article class="e"><span class="tape"></span><div class="image ph"><span>本日</span></div><span class="date">5/16</span><p class="cap">雨の日、ゆっくり時間。</p></article>
-    <article class="e"><span class="tape"></span><div class="image ph"><span>新作</span></div><span class="date">5/14</span><p class="cap">パッションフルーツ届いた🍋</p></article>
-    <article class="e"><span class="tape"></span><div class="image ph"><span>お客</span></div><span class="date">5/12</span><p class="cap">お花のおすそ分けに感謝。</p></article>
-    <article class="e"><span class="tape"></span><div class="image ph"><span>店内</span></div><span class="date">5/09</span><p class="cap">本棚を少し入れ替え。</p></article>
-    <article class="e"><span class="tape"></span><div class="image ph"><span>イベント</span></div><span class="date">5/07</span><p class="cap">音楽イベント、参加します。</p></article>
-    <article class="e"><span class="tape"></span><div class="image ph"><span>スタッフ</span></div><span class="date">5/04</span><p class="cap">新しい仲間、入りました。</p></article>
-    <article class="e"><span class="tape"></span><div class="image ph"><span>朝の生地</span></div><span class="date">5/02</span><p class="cap">いい焼き色 ✿</p></article>
-    <article class="e"><span class="tape"></span><div class="image ph"><span>ご近所</span></div><span class="date">4/29</span><p class="cap">安里小学校の前を通って。</p></article>
-  </div>
+  <div class="wall"></div>
 
   <p class="more">
     <a href="https://share.google/PldG2tbLn0ClIL92A" target="_blank" rel="noopener noreferrer">
@@ -1495,19 +1434,9 @@ footer .pp-link{ font-size:11px; }
   <div class="board">
     <div class="map ph"><span>map placeholder</span></div>
     <div>
-      <dl>
-        <dt>store</dt><dd>クレープの森</dd>
-        <dt>address</dt><dd>〒902-0067 沖縄県那覇市安里４８</dd>
-        <dt>tel</dt><dd>098-988-8666</dd>
-        <dt>train</dt><dd>ゆいレール牧志駅徒歩８分</dd>
-        <dt>park</dt><dd>近隣のコインパーキングをご利用ください</dd>
-      </dl>
+      <dl></dl>
       <div class="hours">
-        <table>
-          <tr><td>火・水・木</td><td>11:00 — 18:30</td></tr>
-          <tr><td>土・日</td><td>11:00 — 18:30</td></tr>
-          <tr><td>月・金</td><td>closed</td></tr>
-        </table>
+        <table></table>
       </div>
     </div>
   </div>
@@ -1522,11 +1451,7 @@ footer .pp-link{ font-size:11px; }
     <span class="date">— sns</span>
   </div>
 
-  <div class="row">
-    <a class="card" href="#"><span class="tape"></span><h3>Instagram</h3><div class="h">@crepe_no_mori</div><p>毎日の様子・メニュー速報・新作のお知らせ。一番のおすすめ。</p></a>
-    <a class="card" href="#"><span class="tape"></span><h3>X (Twitter)</h3><div class="h">@crepenomori</div><p>営業中のおしらせ・臨時休業案内など。</p></a>
-    <a class="card" href="#"><span class="tape"></span><h3>LINE</h3><div class="h">@line-id</div><p>友だち追加で予約・お取り置きがスムーズに。</p></a>
-  </div>
+  <div class="row"></div>
 </section>
 
 <div class="tear tear-b tear--dark" aria-hidden="true"></div>
@@ -1538,28 +1463,7 @@ footer .pp-link{ font-size:11px; }
     <span class="date">— at home, too</span>
   </div>
 
-  <div class="cards">
-    <a class="card" href="#">
-      <span class="tape"></span>
-      <span class="dlabel">PICK UP</span>
-      <div class="icon"><svg viewBox="0 0 92 92" fill="none" stroke="#2B2622" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="20" y="28" width="52" height="48" rx="3"/><path d="M20 40 L72 40"/><path d="M36 28 L36 18 L56 18 L56 28"/></svg></div>
-      <div class="body">
-        <h3>テイクアウト</h3>
-        <p>店頭でのお持ち帰り注文を承ります。15分前のお電話で焼きたてをお渡しします。</p>
-      </div>
-      <span class="arrowto">→ 電話する</span>
-    </a>
-    <a class="card" href="#">
-      <span class="tape"></span>
-      <span class="dlabel">DELIVERY</span>
-      <div class="icon"><svg viewBox="0 0 92 92" fill="none" stroke="#2B2622" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="40" width="44" height="22" rx="3"/><path d="M58 44 L70 44 L78 56 L78 62 L58 62 Z"/><circle cx="26" cy="64" r="6"/><circle cx="66" cy="64" r="6"/></svg></div>
-      <div class="body">
-        <h3>デリバリー</h3>
-        <p>Uber Eats / Wolt にて配達中。アプリでお店名をご検索ください。</p>
-      </div>
-      <span class="arrowto">→ アプリで開く</span>
-    </a>
-  </div>
+  <div class="cards"></div>
 </section>
 
 <div class="tear tear-c tear--bg" aria-hidden="true"></div>
@@ -1571,13 +1475,7 @@ footer .pp-link{ font-size:11px; }
     <span class="date">— faq</span>
   </div>
 
-  <div class="qa">
-    <details><summary><span class="q">Q.</span>予約はできますか？<span class="plus"></span></summary><div class="a">店頭でのお取り置きのみ承っております。お電話・LINEでご連絡ください。混雑時は時間を指定していただくとスムーズです。</div></details>
-    <details><summary><span class="q">Q.</span>子ども連れでも大丈夫ですか？<span class="plus"></span></summary><div class="a">もちろんです。小さな絵本コーナー、子ども用のいすもご用意しております。ベビーカーでの入店も可能です。</div></details>
-    <details><summary><span class="q">Q.</span>アレルギー対応はありますか？<span class="plus"></span></summary><div class="a">卵・小麦・乳製品を使用しています。代替対応は事前にご相談ください。可能な範囲で承ります。</div></details>
-    <details><summary><span class="q">Q.</span>ホールクレープのオーダーは？<span class="plus"></span></summary><div class="a">誕生日や記念日用のホールクレープ（メッセージ入り）を承ります。3日前までにご予約ください。</div></details>
-    <details><summary><span class="q">Q.</span>支払い方法は？<span class="plus"></span></summary><div class="a">現金・各種クレジットカード・QR決済（PayPay / 楽天ペイ / d払い）に対応しています。</div></details>
-  </div>
+  <div class="qa"></div>
 </section>
 
 <!-- ===== CTA ===== -->
@@ -1858,6 +1756,18 @@ function stars(n) {
 const CMS_CACHE_KEY = 'crepe_cms_v2';
 const CMS_CACHE_TTL = 60 * 60 * 1000; // 1時間
 
+const _loaderStart = Date.now();
+function _hideLoader() {
+  const el = document.getElementById('page-loader');
+  if (!el || el.dataset.done) return;
+  el.dataset.done = '1';
+  const wait = Math.max(0, 700 - (Date.now() - _loaderStart));
+  setTimeout(() => {
+    el.classList.add('fade-out');
+    setTimeout(() => el.remove(), 650);
+  }, wait);
+}
+
 function applyAll(d) {
   applySettings(d.settings);
   applyHero(d.hero);
@@ -1875,7 +1785,7 @@ function applyAll(d) {
 }
 
 async function loadCMS() {
-  if (!GAS_URL || GAS_URL.includes('ここに')) return;
+  if (!GAS_URL || GAS_URL.includes('ここに')) { _hideLoader(); return; }
   // CMS読み込み前に静的HTMLを隠してフラッシュ防止
   document.querySelector('#blog .wall')?.classList.add('cms-loading');
 
@@ -1889,6 +1799,7 @@ async function loadCMS() {
     if (raw) {
       const { ts, data } = JSON.parse(raw);
       applyAll(data);
+      _hideLoader();
       // TTL内ならバックグラウンド更新のみ（ページ再描画しない）
       if (Date.now() - ts < CMS_CACHE_TTL) {
         fetch(GAS_URL).then(r => r.json()).then(d => {
@@ -1905,9 +1816,11 @@ async function loadCMS() {
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const d = await res.json();
     applyAll(d);
+    _hideLoader();
     localStorage.setItem(CMS_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: d }));
   } catch (err) {
     console.warn('[CMS] 読み込みエラー:', err);
+    _hideLoader();
   }
 }
 
