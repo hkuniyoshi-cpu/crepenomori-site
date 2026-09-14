@@ -1985,10 +1985,15 @@ function applyBlog(items) {
     const rawTitle  = b.title || b.body || '';
     const shortTitle = rawTitle.length > 44 ? rawTitle.slice(0, 44) + '…' : rawTitle;
     const imgUrl = b.image;
-    // Sheetsに保存されたブログURLがあればそれを使用、なければ日付ベースURL
-    const blogHref = (b.url && b.url.includes('/blog/'))
-      ? b.url
-      : (b.date ? `/blog/${b.date}/` : null);
+    // スラッグ抽出：F列URLの /blog/xxx/ 部分 > 日付 の順で優先
+    // 常にパス型 URL /blog/{slug}/ を生成（SSR Function 経由）
+    let postSlug = '';
+    if (b.url) {
+      const m = String(b.url).match(/\/blog\/([^\/\?#]+)/);
+      if (m) postSlug = m[1];
+    }
+    if (!postSlug && b.date) postSlug = b.date;
+    const blogHref = postSlug ? `/blog/${postSlug}/` : null;
     const tagOpen = blogHref
       ? `<a href="${blogHref}" class="e blog-card reveal">`
       : `<article class="e blog-card reveal" role="button" tabindex="0" data-idx="${i}">`;
